@@ -11,7 +11,6 @@ namespace Core.ViewModels
 {
     public class HomePageViewModel : MvxViewModel
     {
-        //TODO: move to separate class / wrap
         private FileSystemWatcher watcher;
 
         private readonly IFIleProvider _fileProvider;
@@ -30,6 +29,8 @@ namespace Core.ViewModels
                 return fileTabs;
             }
         }
+
+        public int FileTabsCount => fileTabs == null ? -1 : fileTabs.Count -1;
 
         private string helloText = "Hello there";
         public string HelloText
@@ -83,6 +84,7 @@ namespace Core.ViewModels
                 fileName = this._fileProvider.SelectFile();
                 var fileTab = new FileTabViewModel(fileName);
                 FileTabs.Add(fileTab);
+                RaisePropertyChanged("FileTabsCount");
             }
             catch(Exception ex)
             {

@@ -9,6 +9,7 @@ namespace Core.Services
     {
         event Action<object, FileAppendedEventArgs> FileAppended;
         Task StartTracking();
+        Task<string> GetFileContent();
         void StopTracking();
     }
 

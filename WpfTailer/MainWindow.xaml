@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:WpfTailer"
         xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800"
+                 WindowStyle="ThreeDBorderWindow"
+                 >
     <StackPanel>
         
     </StackPanel>

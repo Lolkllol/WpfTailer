@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WpfTailer.View.Templates"
+                    xmlns:c="clr-namespace:WpfTailer.CustomControls">
+    <DataTemplate x:Key="TabDataTemplate">
+        <DockPanel>
+            <ScrollViewer>
+                <DockPanel LastChildFill="True">
+                    <TextBox Text="{Binding ElementName=kk, Path=SearchedText, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"/>
+                    <c:SearchableTextblock  IsReadOnly="True" Text="{Binding FileContent}" Name="kk" IsInactiveSelectionHighlightEnabled="True" FocusManager.IsFocusScope="True"/>
+                </DockPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

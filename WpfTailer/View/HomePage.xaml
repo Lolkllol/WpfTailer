@@ -8,34 +8,26 @@
       xmlns:local="clr-namespace:WpfTailer.View"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <!--<TabControl ItemsSource="{Binding FileTabs}" Height="100px">
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <TabItem>
-                        <StackPanel>
-                            <Label Content="{Binding TabContent}"></Label>
-                            <Label Content="Hard coded content"></Label>
-                        </StackPanel>
-                    </TabItem>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="TabItem">
-                    <Setter Property="Header" Value="{Binding TabContent}"></Setter>
-                </Style>
-            </TabControl.ItemContainerStyle>
-        </TabControl>-->
-
-        <TabControl ItemsSource="{Binding FileTabs}"  DisplayMemberPath="TabContent">
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                           <TextBlock Text="{Binding FileContent}"></TextBlock>
-                        </StackPanel>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
+    <views:MvxWpfView.Resources>
+        <ResourceDictionary Source="Templates/TabResourceDictionary.xaml"/>
+    </views:MvxWpfView.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="30px"/>
+        </Grid.RowDefinitions>
+        <TabControl ItemsSource="{Binding FileTabs}"  DisplayMemberPath="FileName" ContentTemplate="{StaticResource TabDataTemplate}" 
+                    SelectedIndex="{Binding FileTabsCount, Mode=OneWay}"
+                    
+                    >
         </TabControl>
-        <Button Command="{Binding OpenFileDialogCommand}" Content="Open File"></Button>
-    </StackPanel>
+        <DockPanel LastChildFill="False"
+                   Grid.Row="1"
+                   >
+            <Button Command="{Binding OpenFileDialogCommand}" 
+                    Content="Open File"
+                    DockPanel.Dock="Right"
+                    />
+        </DockPanel>
+    </Grid>
 </views:MvxWpfView>

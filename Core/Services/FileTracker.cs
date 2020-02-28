@@ -13,15 +13,23 @@ namespace Core.Services
 
         private string  _filePath;
         private int msSpan = 100;
+        private Task _runningTask;
         private CancellationToken cancellationToken;
         public FileTracker(string filePath)
         {
             this._filePath = filePath;
-            this.StartTracking();
+            this._runningTask = this.StartTracking();
+        }
+
+        ~FileTracker()
+        {
+            StopTracking();
         }
 
         public Task StartTracking()
         {
+            cancellationToken = new CancellationToken();
+
             var task = new Task(async () =>
             {
                 await using (var fs = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -30,11 +38,18 @@ namespace Core.Services
                     await sr.ReadToEndAsync();
                     while (!cancellationToken.IsCancellationRequested)
                     {
-                        if (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            FileAppended?.Invoke(this, new FileAppendedEventArgs(line));
-                            Thread.Sleep(msSpan);
+                            if (!sr.EndOfStream)
+                            {
+                                var line = sr.ReadLine();
+                                FileAppended?.Invoke(this, new FileAppendedEventArgs(line));
+                                Thread.Sleep(msSpan);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            FileAppended?.Invoke(this, new FileAppendedEventArgs(ex.Message));
                         }
                     }
                 }
@@ -45,7 +60,12 @@ namespace Core.Services
 
         public void StopTracking()
         {
+            
+        }
 
+        public Task<string> GetFileContent()
+        {
+            throw new NotImplementedException();
         }
     }
 }
